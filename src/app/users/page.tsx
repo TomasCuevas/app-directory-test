@@ -13,11 +13,16 @@ const getUsers = async () => {
 
 const UsersPage: NextPage = async () => {
   const data = await getUsers();
-  console.log(data);
 
   return (
     <main className="w-4/5 mx-auto my-10">
-      <section className="flex flex-col gap-3">
+      <Link
+        href="/"
+        className="font-bold p-2 hover:bg-slate-300 duration-200 rounded-md"
+      >
+        <span>⬅️ Volver</span>
+      </Link>
+      <section className="flex flex-col gap-3 mt-5">
         {data.map((user) => (
           <article
             key={user.id}

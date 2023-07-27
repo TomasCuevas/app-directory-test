@@ -1,22 +1,26 @@
-import type { NextPage } from "next";
+import type { Metadata, NextPage } from "next";
 import Link from "next/link";
 
-//* INTERFACES *//
-import { IData } from "@/interfaces/user.interfaces";
+//* SERVICES *//
+import { getUserService } from "@/services";
 
+//* INTERFACES *//
 interface Props {
   params: { id: string };
 }
 
-const getUser = async (id: string) => {
-  const body = await fetch(`https://reqres.in/api/users/${id}`);
-  const { data } = await body.json();
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
+  const user = await getUserService(params.id);
 
-  return data as IData;
+  return {
+    title: `${user.first_name} ${user.last_name} | AppDirectory`,
+  };
 };
 
 const UserPage: NextPage<Props> = async ({ params }) => {
-  const user = await getUser(params.id);
+  const user = await getUserService(params.id);
 
   return (
     <main className="my-10 mx-auto w-4/5">
@@ -26,8 +30,14 @@ const UserPage: NextPage<Props> = async ({ params }) => {
       >
         <span>⬅️ Volver</span>
       </Link>
-      <article className="mt-10">
-        <img src={user.avatar} alt={user.email} className="w-40 rounded-full" />
+      <article className="mt-5">
+        <Link href={user.avatar} target="_blank">
+          <img
+            src={user.avatar}
+            alt={user.email}
+            className="w-32 rounded-full"
+          />
+        </Link>
         <div>
           <h1 className="font-bold text-3xl mt-5">
             {user.first_name} {user.last_name}

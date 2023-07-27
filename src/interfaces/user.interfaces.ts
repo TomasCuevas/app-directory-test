@@ -1,4 +1,4 @@
-export interface IUser {
+export interface IUsersResponse {
   page: number;
   per_page: number;
   total: number;
@@ -18,4 +18,9 @@ export interface IData {
 export interface ISupport {
   url: string;
   text: string;
+}
+
+export interface IUserResponse {
+  data: IData;
+  support: ISupport;
 }
